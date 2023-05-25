@@ -10,24 +10,26 @@ running = True
 GAMESTATE = 'jogo'
 # jogo
 # gameover
+mensagem = ''
 
 img_coracao = pg.image.load('coracao.png')
-img_coracao = pg.transform.scale(img_coracao, (40,40))
+img_coracao = pg.transform.scale(img_coracao, (64,64))
+vidas = 6
 
-palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador']
+palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador','charuto','uva','ovo','fluminence','sapato']
 
 palavra_escolhida = random.choice(palavras)
-resposta = ''
+resposta = []
 for i in range(len(palavra_escolhida)):
-    resposta += '_'
+    resposta.append('_')
 
 def novo_jogo():
     global palavra_escolhida, resposta
     palavra_escolhida = random.choice(palavras)
     
-    resposta = ''
+    resposta = []
     for i in range(len(palavra_escolhida)):
-        resposta += '_'
+        resposta.append('_')
 
 def mostrar_texto(texto,tamanho,pos):
     font = pg.font.Font('Minecraft.ttf',tamanho)
@@ -43,8 +45,21 @@ while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+        
         if event.type == pg.KEYDOWN:
+
+            if GAMESTATE == 'jogo':
+                tecla = pg.key.name(event.key)
+                for i in range(len(palavra_escolhida)):
+                    if tecla == palavra_escolhida[i]:
+                        resposta[i] = tecla
+                if tecla not in list(palavra_escolhida):
+                    vidas-=1
+
+            
+
             # debug
+            '''
             if event.key == pg.K_a:
                 if GAMESTATE == 'jogo':
                     GAMESTATE = 'gameover'
@@ -52,22 +67,32 @@ while running:
                     GAMESTATE = 'jogo'
             if event.key == pg.K_d:
                 novo_jogo()
+            '''
     
     # ------------- TICK -------------
     if GAMESTATE == 'jogo':
-        pass
+        if vidas <= 0:
+            GAMESTATE = 'gameover'
+        if '_' not in resposta:
+            GAMESTATE = 'gameover'
+            mensagem = f'Parabens você acertou a palavra! A palavra era'
     
     elif GAMESTATE == 'gameover':
-        pass
+        if '_' in resposta:
+            mensagem = f'GAMEOVER! A palavra era'
 
+    
     screen.fill((47,69,65))
     # ------------- RENDER -------------
     if GAMESTATE == 'jogo':
-        mostrar_texto(resposta, 50, [300,500])
-        screen.blit(img_coracao, [10,10])
+        mostrar_texto(''.join(resposta), 64, [300,400])
+
+        for i in range(vidas):
+            screen.blit(img_coracao,[20+75*i, 50])
     
     elif GAMESTATE == 'gameover':
-        mostrar_texto('gameover', 50, [300,50])
+        mostrar_texto(mensagem, 32, [300,50])
+        mostrar_texto(palavra_escolhida.upper(), 64, [300, 100])
     
 
     pg.display.flip()
