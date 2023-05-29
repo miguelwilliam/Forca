@@ -16,20 +16,23 @@ img_coracao = pg.image.load('coracao.png')
 img_coracao = pg.transform.scale(img_coracao, (64,64))
 vidas = 6
 
-palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador','charuto','uva','ovo','fluminence','sapato']
-
-palavra_escolhida = random.choice(palavras)
+palavra_escolhida = ''
 resposta = []
-for i in range(len(palavra_escolhida)):
-    resposta.append('_')
 
-def novo_jogo():
+palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador','charuto','uva','ovo','fluminense','sapato', 'orangotango', 'vasco', 'paysandu', 'forca', 'minecraft', 'flamengo', 'atletico', 'galinha', 'roblox', 'priscilla', 'jubileu', 'carlos', 'melancia', 'pepino', 'pitaya', 'goiaba', 'acerola']
+
+def escolher_palavra():
     global palavra_escolhida, resposta
     palavra_escolhida = random.choice(palavras)
-    
     resposta = []
     for i in range(len(palavra_escolhida)):
         resposta.append('_')
+
+def novo_jogo():
+    global vidas, GAMESTATE
+    escolher_palavra()
+    vidas = 6
+    GAMESTATE = 'jogo'
 
 def mostrar_texto(texto,tamanho,pos):
     font = pg.font.Font('Minecraft.ttf',tamanho)
@@ -38,7 +41,7 @@ def mostrar_texto(texto,tamanho,pos):
     textRect.center = (pos[0], pos[1])
     screen.blit(text,textRect)
 
-
+novo_jogo()
 
 while running:
     # poll for events
@@ -55,19 +58,10 @@ while running:
                         resposta[i] = tecla
                 if tecla not in list(palavra_escolhida):
                     vidas-=1
+            if GAMESTATE == 'gameover':
+                if event.key == pg.K_r:
+                    novo_jogo()
 
-            
-
-            # debug
-            '''
-            if event.key == pg.K_a:
-                if GAMESTATE == 'jogo':
-                    GAMESTATE = 'gameover'
-                else:
-                    GAMESTATE = 'jogo'
-            if event.key == pg.K_d:
-                novo_jogo()
-            '''
     
     # ------------- TICK -------------
     if GAMESTATE == 'jogo':
@@ -75,7 +69,7 @@ while running:
             GAMESTATE = 'gameover'
         if '_' not in resposta:
             GAMESTATE = 'gameover'
-            mensagem = f'Parabens você acertou a palavra! A palavra era'
+            mensagem = f'PARABRENS! A palavra era'
     
     elif GAMESTATE == 'gameover':
         if '_' in resposta:
@@ -93,8 +87,8 @@ while running:
     elif GAMESTATE == 'gameover':
         mostrar_texto(mensagem, 32, [300,50])
         mostrar_texto(palavra_escolhida.upper(), 64, [300, 100])
+        mostrar_texto('Pressione R para recomecar.', 32, [300,300])
     
-
     pg.display.flip()
     clock.tick(60)
 
