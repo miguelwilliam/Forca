@@ -1,6 +1,7 @@
 import pygame as pg
 import random
 
+# iniciar as coisa
 SCREENSIZE = (600,600)
 pg.init()
 screen = pg.display.set_mode(SCREENSIZE)
@@ -19,7 +20,7 @@ vidas = 6
 palavra_escolhida = ''
 resposta = []
 
-palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador','charuto','uva','ovo','fluminense','sapato', 'orangotango', 'vasco', 'paysandu', 'forca', 'minecraft', 'flamengo', 'atletico', 'galinha', 'roblox', 'priscilla', 'jubileu', 'carlos', 'melancia', 'pepino', 'pitaya', 'goiaba', 'acerola']
+palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador','charuto','uva','ovo','fluminense','sapato', 'orangotango', 'vasco', 'paysandu', 'forca', 'minecraft', 'flamengo', 'atletico', 'galinha', 'roblox', 'priscilla', 'jubileu', 'carlos', 'melancia', 'pepino', 'pitaya', 'goiaba', 'acerola','raluca','diggo','jeanl','slipknot']
 
 def escolher_palavra():
     global palavra_escolhida, resposta
@@ -44,7 +45,7 @@ def mostrar_texto(texto,tamanho,pos):
 novo_jogo()
 
 while running:
-    # poll for events
+    # CHECAR EVENTOS
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
@@ -69,14 +70,14 @@ while running:
             GAMESTATE = 'gameover'
         if '_' not in resposta:
             GAMESTATE = 'gameover'
-            mensagem = f'PARABRENS! A palavra era'
+            mensagem = f'PARABENS! A palavra era'
     
     elif GAMESTATE == 'gameover':
         if '_' in resposta:
             mensagem = f'GAMEOVER! A palavra era'
 
     
-    screen.fill((47,69,65))
+    screen.fill((26, 25, 50))
     # ------------- RENDER -------------
     if GAMESTATE == 'jogo':
         mostrar_texto(''.join(resposta), 64, [300,400])
