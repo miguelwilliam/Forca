@@ -1,24 +1,4 @@
 import pygame as pg
-import random
-
-# iniciar as coisa
-SCREENSIZE = (600,600)
-pg.init()
-screen = pg.display.set_mode(SCREENSIZE)
-pg.display.set_caption('Forca')
-clock = pg.time.Clock()
-running = True
-GAMESTATE = 'jogo'
-# jogo
-# gameover
-mensagem = ''
-
-img_coracao = pg.image.load('coracao.png')
-img_coracao = pg.transform.scale(img_coracao, (64,64))
-vidas = 6
-
-palavra_escolhida = ''
-resposta = []
 
 palavras = ['banana','palmeiras','cuscuz','teclado','cachorro','vaca', 'naruto','cleiton','emidio','dias','macaco','computador','charuto','uva','ovo','fluminense','sapato', 'orangotango', 'vasco', 'paysandu', 'forca', 'minecraft', 'flamengo', 'atletico', 'galinha', 'roblox', 'priscilla', 'jubileu', 'carlos', 'melancia', 'pepino', 'pitaya', 'goiaba', 'acerola','raluca','diggo','jeanl','slipknot']
 
@@ -80,7 +60,7 @@ while running:
     screen.fill((26, 25, 50))
     # ------------- RENDER -------------
     if GAMESTATE == 'jogo':
-        mostrar_texto(''.join(resposta), 64, [300,400])
+        mostrar_texto(''.join(resposta), 64, [300,40])
 
         for i in range(vidas):
             screen.blit(img_coracao,[20+75*i, 50])
@@ -94,3 +74,23 @@ while running:
     clock.tick(60)
 
 pg.quit()
+import random
+
+# iniciar as coisa
+SCREENSIZE = (600,600)
+pg.init()
+screen = pg.display.set_mode(SCREENSIZE)
+pg.display.set_caption('Forca')
+clock = pg.time.Clock()
+running = True
+GAMESTATE = 'jogo'
+# jogo
+# gameover
+mensagem = ''
+
+img_coracao = pg.image.load('coracao.png')
+img_coracao = pg.transform.scale(img_coracao, (64,64))
+vidas = 6
+
+palavra_escolhida = ''
+resposta = []
